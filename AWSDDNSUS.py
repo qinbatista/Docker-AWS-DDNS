@@ -9,8 +9,6 @@ class AWSDDNSUS:
     def __init__(self):
         self.__file_path = "/aws-ddns-us.txt"
         self.__aws_lambda = os.environ.get('AWS_LAMBDA')
-        self._get_ipv4_website = "https://checkip.amazonaws.com"
-        self._get_ipv6_website = "https://api6.ipify.org"
 
     def _get_file_content(self, file_path):
         content = ""
