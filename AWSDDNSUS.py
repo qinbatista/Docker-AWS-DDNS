@@ -4,7 +4,6 @@ import requests
 import threading
 import subprocess
 
-
 class AWSDDNSUS:
     def __init__(self):
         self.__file_path = "/aws-ddns-us.txt"
