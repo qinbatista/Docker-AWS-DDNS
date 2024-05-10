@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push docker
-        run: docker push qinbatista/googleddnsclient
+        run: docker push qinbatista/aws-ddns-us
 
   cn:
     runs-on: ubuntu-latest
@@ -42,4 +42,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push docker
-        run: docker push qinbatista/googleddnsclienttimo
+        run: docker push qinbatista/aws-ddns-cn
