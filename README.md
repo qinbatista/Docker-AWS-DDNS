@@ -7,8 +7,8 @@ If the IP of your server is changing or you start a new server but don't  know w
 ## How to use
 
 #### build docker
-* **Username** : Google Dynamic DNS-> credential of ***Username***
-* **Password** : Google Dynamic DNS-> credential of ***Password***
+* **Username** : AWS Dynamic DNS-> credential of ***Username***
+* **Password** : AWS Dynamic DNS-> credential of ***Password***
 * **Domain_name**: your domain name of the Dynamic DNS
 
 #### run docker
