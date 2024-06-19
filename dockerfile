@@ -14,4 +14,4 @@ RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
 WORKDIR /
-CMD ["python","/GoogleDDNSClient.py"]
+CMD ["python","/AWSDDNSUS.py"]
