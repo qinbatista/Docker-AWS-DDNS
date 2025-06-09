@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   pull_request:
-    branches: ["master"]
+    branches: [ "master" ]
 
 jobs:
   us:
@@ -12,52 +12,83 @@ jobs:
     environment: US
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build -t qinbatista/aws-ddns-us .
-            --build-arg AWS_LAMBDA="${{ secrets.AWS_LAMBDA }}"
 
-
+      # ----- Docker Hub login -----
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push docker
-        run: docker push qinbatista/aws-ddns-us
+      # ----- QEMU for cross-arch builds -----
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      # ----- Buildx builder -----
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # ----- Build & push multi-arch image -----
+      - name: Build and push (US)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: qinbatista/aws-ddns-us:latest
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            AWS_LAMBDA=${{ secrets.AWS_LAMBDA }}
 
   cn:
     runs-on: ubuntu-latest
     environment: CN
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build -t qinbatista/aws-ddns-cn .
-            --build-arg AWS_LAMBDA="${{ secrets.AWS_LAMBDA }}"
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push docker
-        run: docker push qinbatista/aws-ddns-cn
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push (CN)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: qinbatista/aws-ddns-cn:latest
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            AWS_LAMBDA=${{ secrets.AWS_LAMBDA }}
 
   timov4:
     runs-on: ubuntu-latest
     environment: TIMO
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build -t qinbatista/aws-ddns-timov4 .
-            --build-arg AWS_LAMBDA="${{ secrets.AWS_LAMBDA }}"
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push docker
-        run: docker push qinbatista/aws-ddns-timov4
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push (TIMO)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: qinbatista/aws-ddns-timov4:latest
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            AWS_LAMBDA=${{ secrets.AWS_LAMBDA }}
