@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.8.13-alpine3.16 AS python
 
 
 #[Start] aws DDNS --------------------------------------------------
