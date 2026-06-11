@@ -35,7 +35,7 @@ class AWSDDNSUS:
     def _post_ip_to_AWS_DNS(self):
         try:
             # Force IPv4 with -4
-            ipv4_curl_command = f"curl -4 '{self.__aws_lambda}'"
+            ipv4_curl_command = f"curl -4 --fail --silent --show-error '{self.__aws_lambda}'"
             ipv4_result = subprocess.run(ipv4_curl_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             self.__log(f"IPv4 CURL Output: {ipv4_result.stdout}")
             if ipv4_result.stderr:
